@@ -1,16 +1,16 @@
 <?php
 class Exam
 {
-    private $examId;
-    private $type;
-    private $patient;
-    private $doctor;
-    private $techinitian;
-    private $realizationDate;
-    private $imgPath;
-    private $examNotes;
+    private int $examId;
+    private ExamType $type;
+    private User $patient;
+    private User $doctor;
+    private User $techinitian;
+    private DateTime $realizationDate;
+    private ExamImage $examImages;
+    private ExamNote $examNotes;
 
-    public function __construct($examId, $type, $patient, $doctor, $techinitian, $realizationDate, $imgPath, $examNotes)
+    public function __construct($examId, $type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes)
     {
         $this->examId = $examId;
         $this->type = $type;
@@ -18,79 +18,88 @@ class Exam
         $this->doctor = $doctor;
         $this->techinitian = $techinitian;
         $this->realizationDate = $realizationDate;
-        $this->imgPath = $imgPath;
-        $this->examNotes = $examNotes;
+        $this->examImages = $examImages ?? array();
+        $this->examNotes = $examNotes ?? array();
     }
 
-    function get_examId()
+    public function getExamId(): int
     {
         return $this->examId;
     }
-    function set_examId($var)
+    public function setExamId(int $examId): void
     {
-        $this->examId = $var;
+        $this->examId = $examId;
     }
 
-    function get_name()
+    public function getType(): ExamType
     {
         return $this->type;
     }
-    function set_name($var)
+    public function setType(ExamType $type): void
     {
-        $this->type = $var;
+        $this->type = $type;
     }
 
-    function get_patient()
+    public function getPatient(): User
     {
         return $this->patient;
     }
-    function set_patient($var)
+    public function setPatient(User $patient): void
     {
-        $this->patient = $var;
+        $this->patient = $patient;
     }
 
-    function get_doctor()
+    public function getDoctor(): User
     {
         return $this->doctor;
     }
-    function set_doctor($var)
+    public function setDoctor(User $doctor): void
     {
-        $this->doctor = $var;
+        $this->doctor = $doctor;
     }
 
-    function get_address()
+    public function getTechinitian(): User
     {
         return $this->techinitian;
     }
-    function set_address($var)
+    public function setTechinitian(User $techinitian): void
     {
-        $this->techinitian = $var;
+        $this->techinitian = $techinitian;
     }
 
-    function get_gender()
+    public function getRealizationDate(): DateTime
     {
         return $this->realizationDate;
     }
-    function set_gender($var)
+    public function setRealizationDate(DateTime $realizationDate): void
     {
-        $this->realizationDate = $var;
+        $this->realizationDate = $realizationDate;
     }
 
-    function get_birthdate()
+    public function getExamImages()
     {
-        return $this->imgPath;
+        return $this->examImages;
     }
-    function set_birthdate($var)
+    public function setExamImages($examImages): void
     {
-        $this->imgPath = $var;
+        $this->examImages = $examImages;
+    }
+    public function addExamImage($examImage) : void{
+        array_push($this->examImages, $examImage);
     }
 
-    function get_citizenCard()
+    public function getExamNotes()
     {
         return $this->examNotes;
     }
-    function set_citizenCard($var)
+    public function setExamNotes($examNotes): void
     {
-        $this->examNotes = $var;
+        $this->examNotes = $examNotes;
     }
+    public function addExamNote($examNote) : void{
+        array_push($this->exmamNotes, $examNote);
+    }
+
+
+
 }

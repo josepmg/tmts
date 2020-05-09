@@ -2,20 +2,21 @@
 
 class User
 {
-    private $userId;
-    private $name;
-    private $userLogin;
-    private $userPassword;
-    private $address;
-    private $gender;
-    private $birthdate;
-    private $citizenCard;
-    private $userType;
+    private int $userId;
+    private string $userName;
+    private string $userLogin;
+    private string $userPassword;
+    private string $address;
+    private UserGender $gender;
+    private DateTime $birthdate;
+    private string $citizenCard;
+    private UserType $userType;
+    private bool $isActive;
 
-    public function __construct($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType)
+    public function __construct($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive)
     {
         $this->userId = $userId;
-        $this->name = $name;
+        $this->userName = $name;
         $this->userLogin = $userLogin;
         $this->userPassword = $userPassword;
         $this->address = $address;
@@ -23,6 +24,7 @@ class User
         $this->birthdate = $birthdate;
         $this->citizenCard = $citizenCard;
         $this->userType = $userType;
+        $this->isActive = $isActive;
     }
 
     function get_userId()
@@ -34,13 +36,13 @@ class User
         $this->userId = $var;
     }
 
-    function get_name()
+    function get_userName() : string
     {
-        return $this->name;
+        return $this->userName;
     }
-    function set_name($var)
+    function set_userName($var)
     {
-        $this->name = $var;
+        $this->userName = $var;
     }
 
     function get_userLogin()
@@ -105,4 +107,15 @@ class User
     {
         $this->userType = $var;
     }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+
 }

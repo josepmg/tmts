@@ -1,5 +1,6 @@
 <?php
     include 'api/objects/user.php';
+    include 'api/config/user_dao.php'
 ?>
 
 <html>
@@ -7,12 +8,16 @@
         <title>Home page</title>
     </head>
     <body>
-        Home page
+        Home page <br>
+
         <?php
-            $user = new User(1, "José", "jpgomes", "123", "Aqui", "MAS", 123, "1234", "ADM");
-            for ($i = 0; $i < 10; $i++) {
-                echo "<br>" . $user->get_name();
-            }
+            $userDAO = new UserDAO();
+            $result = $userDAO->getUserByLogin('UtAna');
+//            date_default_timezone_set('Europe/Lisbon');
+//            echo(strval(microtime(true))."<br>".PHP_EOL) ;
+//            $var = new DateTime();
+//            echo ($var->format('H:i:s') . "<br>");
+//            echo( 'DATE: '.date('d/m/Y H:i:s', intval(microtime(true))).PHP_EOL );
         ?>
     </body>
 </html>
