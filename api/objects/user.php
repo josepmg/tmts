@@ -1,4 +1,5 @@
 <?php
+include 'api/config/includes.php';
 
 class User
 {
@@ -13,9 +14,8 @@ class User
     private UserType $userType;
     private bool $isActive;
 
-    public function __construct($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive)
+    public function __construct($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive)
     {
-        $this->userId = $userId;
         $this->userName = $name;
         $this->userLogin = $userLogin;
         $this->userPassword = $userPassword;
@@ -25,6 +25,13 @@ class User
         $this->citizenCard = $citizenCard;
         $this->userType = $userType;
         $this->isActive = $isActive;
+    }
+    public static function createWithId($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive) : User
+    {
+        $instance = new User($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
+        $instance->userId = $userId;
+
+        return $instance;
     }
 
     function get_userId()
@@ -117,5 +124,10 @@ class User
         $this->isActive = $isActive;
     }
 
-
+    public function toString() : string {
+        return "{id: $this->userId, name: $this->userName, login: $this->userLogin, password: $this->userPassword, "
+            . "address: $this->address, gender: " . ($this->gender)->getUserGender() . ", birthdate: "
+            . ($this->birthdate)->getTimestamp() . ", citizenCard: $this->citizenCard, userType: " . ($this->userType)->getUserType()
+            .", isActive: $this->isActive}";
+    }
 }

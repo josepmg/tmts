@@ -1,6 +1,6 @@
 <?php
-    include 'api/objects/user.php';
-    include 'api/config/user_dao.php'
+    include 'api/config/includes.php';
+    date_default_timezone_set('Europe/Lisbon');
 ?>
 
 <html>
@@ -13,11 +13,9 @@
         <?php
             $userDAO = new UserDAO();
             $result = $userDAO->getUserByLogin('UtAna');
-//            date_default_timezone_set('Europe/Lisbon');
-//            echo(strval(microtime(true))."<br>".PHP_EOL) ;
-//            $var = new DateTime();
-//            echo ($var->format('H:i:s') . "<br>");
-//            echo( 'DATE: '.date('d/m/Y H:i:s', intval(microtime(true))).PHP_EOL );
+            echo ($result->toString());
+//            $userDAO->addUser(new User("Jose", 'AdmJose', 'abc123', 'Porto', UserGender::createWithId(2, 'Masc'), new DateTime()
+//                , 'abc', UserType::createWithId(1, 'Administrador'), '1'));
         ?>
     </body>
 </html>

@@ -6,17 +6,20 @@ class UserGender
     private int $userGenderId;
     private string $userGender;
 
-    public function __construct(int $userGenderId, string $userGender)
+    public function __construct(string $userGender)
     {
-        $this->userGenderId = $userGenderId;
         $this->userGender = $userGender;
+    }
+    public static function createWithId(int $userGenderId, string $userGender): UserGender{
+        $instance = new UserGender($userGender);
+        $instance->userGenderId = $userGenderId;
+        return $instance;
     }
 
     public function getUserGenderId(): int
     {
         return $this->userGenderId;
     }
-
     public function setUserGenderId(int $userGenderId): void
     {
         $this->userGenderId = $userGenderId;
@@ -26,7 +29,6 @@ class UserGender
     {
         return $this->userGender;
     }
-
     public function setUserGender(string $userGender): void
     {
         $this->userGender = $userGender;

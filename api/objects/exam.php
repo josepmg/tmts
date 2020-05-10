@@ -1,4 +1,5 @@
 <?php
+include 'api/config/includes.php';
 class Exam
 {
     private int $examId;
