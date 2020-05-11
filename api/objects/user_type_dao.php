@@ -16,12 +16,12 @@ class UserTypeDAO
     }
 
     /// Create
-    public function addUserType(UserType $t)
+    public function add(UserType $t)
     {
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'usertype(userType) '
             . 'VALUES (:userType)');
-        $sttm->bindValue(':gender', $t->getUserType());
+        $sttm->bindValue(':userType', $t->getUserType());
 
         $sttm->execute();
         $inserted = $sttm->fetchAll();
@@ -31,7 +31,7 @@ class UserTypeDAO
     }
 
     /// Read
-    public function getTypeByName(string $userType): ?UserType
+    public function getByType(string $userType): ?UserType
     {
         $sttm = $this->conn->prepare('SELECT * FROM usertype WHERE userType = :userType');
         $sttm->bindValue(':userType', $userType);
@@ -49,7 +49,7 @@ class UserTypeDAO
         $sttm = null;
 //        $this->closeConection();
     }
-    public function getTypeById(int $userTypeId): ?UserType
+    public function getById(int $userTypeId): ?UserType
     {
         $sttm = $this->conn->prepare('SELECT * FROM usertype WHERE userTypeId = :userTypeId');
         $sttm->bindValue(':userTypeId', $userTypeId);
@@ -69,7 +69,7 @@ class UserTypeDAO
     }
 
     /// Update
-    public function updateType(UserType $ut)
+    public function update(UserType $ut)
     {
         $sttm = $this->conn->prepare('UPDATE usertype SET userType = :userType WHERE userTypeId = :userTypeId');
         $sttm->bindValue(':userTypeId', $ut->getUserTypeId());
@@ -82,7 +82,7 @@ class UserTypeDAO
     }
 
     /// Delete
-    public function deleteType(UserType $ut)
+    public function delete(UserType $ut)
     {
         $sttm = $this->conn->prepare('DELETE FROM usertype WHERE userTypeId = :userTypeId');
         $sttm->bindValue(':userTypeId', $ut->getUserTypeId());

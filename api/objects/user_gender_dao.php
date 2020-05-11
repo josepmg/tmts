@@ -16,7 +16,7 @@ class UserGenderDAO
     }
 
     /// Create
-    public function addUserGender(UserGender $g)
+    public function add(UserGender $g)
     {
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'gendertype(gender) '
@@ -31,7 +31,7 @@ class UserGenderDAO
     }
 
     /// Read
-    public function getGenderByName(string $gender): ?UserGender
+    public function getByName(string $gender): ?UserGender
     {
         $sttm = $this->conn->prepare('SELECT * FROM gendertype WHERE gender = :gender');
         $sttm->bindValue(':gender', $gender);
@@ -49,7 +49,7 @@ class UserGenderDAO
         $sttm = null;
 //        $this->closeConection();
     }
-    public function getGenderById(int $genderId): ?UserGender
+    public function getById(int $genderId): ?UserGender
     {
         $sttm = $this->conn->prepare('SELECT * FROM gendertype WHERE genderId = :genderId');
         $sttm->bindValue(':genderId', $genderId);
@@ -69,7 +69,7 @@ class UserGenderDAO
     }
 
     /// Update
-    public function updateType(UserGender $ug)
+    public function update(UserGender $ug)
     {
         $sttm = $this->conn->prepare('UPDATE gendertype SET gender = :gender WHERE genderId = :genderId');
         $sttm->bindValue(':genderId', $ug->getUserGenderId());
@@ -82,7 +82,7 @@ class UserGenderDAO
     }
 
     /// Delete
-    public function deleteType(UserGender $ug)
+    public function delete(UserGender $ug)
     {
         $sttm = $this->conn->prepare('DELETE FROM gendertype WHERE genderId = :genderId');
         $sttm->bindValue(':genderId', $ug->getUserGenderId());

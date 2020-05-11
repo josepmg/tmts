@@ -7,17 +7,21 @@ class ExamType
     private string $examType;
 
 
-    public function __construct(int $examTypeId, string $examType)
+    public function __construct(string $examType)
     {
-        $this->examTypeId = $examTypeId;
         $this->examType = $examType;
+    }
+    public static function createWithId(int $examTypeId, string $examType): ExamType{
+        $instance = new ExamType($examType);
+        $instance->examTypeId = $examTypeId;
+
+        return $instance;
     }
 
     public function getExamTypeId(): int
     {
         return $this->examTypeId;
     }
-
     public function setExamTypeId(int $examTypeId): void
     {
         $this->examTypeId = $examTypeId;
@@ -27,7 +31,6 @@ class ExamType
     {
         return $this->examType;
     }
-
     public function setExamType(string $examType): void
     {
         $this->examType = $examType;

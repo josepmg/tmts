@@ -16,7 +16,7 @@ class UserDAO
     }
 
     /// Create
-    public function addUser(User $u)
+    public function add(User $u)
     {
         $sttm = $this->conn->prepare('INSERT INTO user(name, userLogin, userPassword, address, gender, '
             . 'birthdate, citizenCard, userType, isActive) VALUES (:userName, :userLogin, :userPassword, '
@@ -39,7 +39,35 @@ class UserDAO
     }
 
     /// Read
-    public function getUserByLogin(string $userLogin): ?User
+    public function getById(int $userId): ?User
+    {
+        $sttm = $this->conn->prepare('SELECT * FROM user WHERE userId = :userId');
+        $sttm->bindValue(':userId', $userId);
+
+        $sttm->execute();
+        $result = $sttm->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result) return null;
+        else {
+            $userGender = (new UserGenderDAO())->getById(intval($result['gender']));
+            $userTye = (new UserTypeDAO())->getById(intval($result['userType']));
+            return User::createWithId(
+                intval($result['userId']),
+                $result['name'],
+                $result['userLogin'],
+                $result['userPassword'],
+                $result['address'],
+                $userGender,
+                (new DateTime())->setTimestamp(intval($result['birthdate'])),
+                $result['citizenCard'],
+                $userTye,
+                boolval($result['isActive']),
+            );
+        }
+        $sttm = null;
+//        $this->closeConection();
+    }
+    public function getByLogin(string $userLogin): ?User
     {
         $sttm = $this->conn->prepare('SELECT * FROM user WHERE userLogin = :userLogin');
         $sttm->bindValue(':userLogin', $userLogin);
@@ -49,8 +77,8 @@ class UserDAO
 
         if (!$result) return null;
         else {
-            $userGender = (new UserGenderDAO())->getGenderById(intval($result['gender']));
-            $userTye = (new UserTypeDAO())->getTypeById(intval($result['userType']));
+            $userGender = (new UserGenderDAO())->getById(intval($result['gender']));
+            $userTye = (new UserTypeDAO())->getById(intval($result['userType']));
             return User::createWithId(
                 intval($result['userId']),
                 $result['name'],
@@ -69,7 +97,7 @@ class UserDAO
     }
 
     /// Update
-    public function updateType(User $u)
+    public function update(User $u)
     {
         $sttm = $this->conn->prepare('UPDATE user SET userId = :userId, name = :name, userLogin= :userLogin, '
             . 'userPassword= :userPassword, address= :address, gender= :gender, birthdate= :birthdate, '
@@ -92,7 +120,7 @@ class UserDAO
     }
 
     /// Delete
-    public function deleteUser(User $u)
+    public function delete(User $u)
     {
         $sttm = $this->conn->prepare('DELETE FROM user WHERE userId = :userId');
         $sttm->bindValue(':userId', $u->get_userId());
