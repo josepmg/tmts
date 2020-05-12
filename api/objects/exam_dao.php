@@ -61,7 +61,7 @@ class ExamDAO
         else {
             return Exam::createWithId(
                 intval($result['examId']),
-                (new UserTypeDAO())->getById(intval($result['examType'])),
+                (new ExamTypeDAO())->getById(intval($result['examType'])),
                 (new UserDAO())->getById(intval($result['patient'])),
                 (new UserDAO())->getById(intval($result['doctor'])),
                 (new UserDAO())->getById(intval($result['technician'])),
@@ -85,7 +85,7 @@ class ExamDAO
                 array_push($noteList,
                     Exam::createWithId(
                         intval($result['examId']),
-                        (new UserTypeDAO())->getById(intval($result['examType'])),
+                        (new ExamTypeDAO())->getById(intval($result['examType'])),
                         (new UserDAO())->getById(intval($result['patient'])),
                         (new UserDAO())->getById(intval($result['doctor'])),
                         (new UserDAO())->getById(intval($result['technician'])),
@@ -113,7 +113,7 @@ class ExamDAO
                 array_push($noteList,
                     Exam::createWithId(
                         intval($result['examId']),
-                        (new UserTypeDAO())->getById(intval($result['examType'])),
+                        (new ExamTypeDAO())->getById(intval($result['examType'])),
                         (new UserDAO())->getById(intval($result['patient'])),
                         (new UserDAO())->getById(intval($result['doctor'])),
                         (new UserDAO())->getById(intval($result['technician'])),
@@ -141,7 +141,7 @@ class ExamDAO
                 array_push($noteList,
                     Exam::createWithId(
                         intval($result['examId']),
-                        (new UserTypeDAO())->getById(intval($result['examType'])),
+                        (new ExamTypeDAO())->getById(intval($result['examType'])),
                         (new UserDAO())->getById(intval($result['patient'])),
                         (new UserDAO())->getById(intval($result['doctor'])),
                         (new UserDAO())->getById(intval($result['technician'])),
@@ -169,7 +169,7 @@ class ExamDAO
                 array_push($noteList,
                     Exam::createWithId(
                         intval($result['examId']),
-                        (new UserTypeDAO())->getById(intval($result['examType'])),
+                        (new ExamTypeDAO())->getById(intval($result['examType'])),
                         (new UserDAO())->getById(intval($result['patient'])),
                         (new UserDAO())->getById(intval($result['doctor'])),
                         (new UserDAO())->getById(intval($result['technician'])),
@@ -197,7 +197,7 @@ class ExamDAO
                 array_push($noteList,
                     Exam::createWithId(
                         intval($result['examId']),
-                        (new UserTypeDAO())->getById(intval($result['examType'])),
+                        (new ExamTypeDAO())->getById(intval($result['examType'])),
                         (new UserDAO())->getById(intval($result['patient'])),
                         (new UserDAO())->getById(intval($result['doctor'])),
                         (new UserDAO())->getById(intval($result['technician'])),

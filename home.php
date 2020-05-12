@@ -13,7 +13,11 @@
         <?php
             $userDAO = new UserDAO();
             $result = $userDAO->getByLogin('UtAna');
-            echo ($result->toString());
+            $result = (new ExamImageDAO())->getByExam(1);
+            foreach ($result as $examImage){
+                echo ($examImage);
+            }
+
 //            $userDAO->addUser(new User("Jose", 'AdmJose', 'abc123', 'Porto', UserGender::createWithId(2, 'Masc'), new DateTime()
 //                , 'abc', UserType::createWithId(1, 'Administrador'), '1'));
         ?>

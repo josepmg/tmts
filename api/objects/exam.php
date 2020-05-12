@@ -8,12 +8,11 @@ class Exam
     private User $doctor;
     private User $techinitian;
     private DateTime $realizationDate;
-    private ExamImage $examImages;
-    private ExamNote $examNotes;
+    private array $examImages;
+    private array $examNotes;
 
     public function __construct($type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes)
     {
-        $this->examId = $examId;
         $this->type = $type;
         $this->patient = $patient;
         $this->doctor = $doctor;
@@ -83,7 +82,7 @@ class Exam
         $this->realizationDate = $realizationDate;
     }
 
-    public function getExamImages()
+    public function getExamImages() : array
     {
         return $this->examImages;
     }
@@ -95,7 +94,7 @@ class Exam
         array_push($this->examImages, $examImage);
     }
 
-    public function getExamNotes()
+    public function getExamNotes() : array
     {
         return $this->examNotes;
     }

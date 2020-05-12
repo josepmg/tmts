@@ -66,9 +66,10 @@ class ExamImageDAO
                     )
                 );
             }
-            return $imageList;
+
         }
 
+        return $imageList;
         $sttm = null;
 //        $this->closeConection();
     }
