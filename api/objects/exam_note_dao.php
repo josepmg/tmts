@@ -22,7 +22,7 @@ class ExamNoteDAO
             . 'VALUES (:examNote, :exam, :healthProfessional )');
         $sttm->bindValue(':examNote', $examNote->getExamNote());
         $sttm->bindValue(':exam', $examId);
-        $sttm->bindValue(':healthProfessional', ($examNote->getHealthProfessional())->get_userId());
+        $sttm->bindValue(':healthProfessional', ($examNote->getHealthProfessional())->getUserId());
 
         $sttm->execute();
         $inserted = $sttm->fetchAll();

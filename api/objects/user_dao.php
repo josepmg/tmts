@@ -21,14 +21,14 @@ class UserDAO
         $sttm = $this->conn->prepare('INSERT INTO user(name, userLogin, userPassword, address, gender, '
             . 'birthdate, citizenCard, userType, isActive) VALUES (:userName, :userLogin, :userPassword, '
             . ':address, :gender, :birthdate, :citizenCard, :userType, :isActive)');
-        $sttm->bindValue(':userName', $u->get_userName());
-        $sttm->bindValue(':userLogin', $u->get_userLogin());
-        $sttm->bindValue(':userPassword', $u->get_userPassword());
-        $sttm->bindValue(':address', $u->get_address());
-        $sttm->bindValue(':gender', ($u->get_gender())->getUserGenderId());
-        $sttm->bindValue(':birthdate', (($u->get_birthdate())->getTimestamp()) * 1000);
-        $sttm->bindValue(':citizenCard', $u->get_citizenCard());
-        $sttm->bindValue(':userType', ($u->get_userType())->getUserTypeId());
+        $sttm->bindValue(':userName', $u->getUserName());
+        $sttm->bindValue(':userLogin', $u->getUserLogin());
+        $sttm->bindValue(':userPassword', $u->getUserPassword());
+        $sttm->bindValue(':address', $u->getAddress());
+        $sttm->bindValue(':gender', ($u->getGender())->getUserGenderId());
+        $sttm->bindValue(':birthdate', (($u->getBirthdate())->getTimestamp()) * 1000);
+        $sttm->bindValue(':citizenCard', $u->getCitizenCard());
+        $sttm->bindValue(':userType', ($u->getUserType())->getUserTypeId());
         $sttm->bindValue(':isActive', $u->isActive());
 
         $sttm->execute();
@@ -102,16 +102,16 @@ class UserDAO
         $sttm = $this->conn->prepare('UPDATE user SET userId = :userId, name = :name, userLogin= :userLogin, '
             . 'userPassword= :userPassword, address= :address, gender= :gender, birthdate= :birthdate, '
             . 'citizenCard= :citizenCard, userType= :userType, isActive = :isActive WHERE :userId');
-        $sttm->bindValue(':userName', $u->get_userName());
-        $sttm->bindValue(':userLogin', $u->get_userLogin());
-        $sttm->bindValue(':userPassword', $u->get_userPassword());
-        $sttm->bindValue(':address', $u->get_address());
-        $sttm->bindValue(':gender', ($u->get_gender())->getUserGenderId());
-        $sttm->bindValue(':birthdate', (($u->get_birthdate())->getTimestamp()) * 1000);
-        $sttm->bindValue(':citizenCard', $u->get_citizenCard());
-        $sttm->bindValue(':userType', ($u->get_userType())->getUserTypeId());
+        $sttm->bindValue(':userName', $u->getUserName());
+        $sttm->bindValue(':userLogin', $u->getUserLogin());
+        $sttm->bindValue(':userPassword', $u->getUserPassword());
+        $sttm->bindValue(':address', $u->getAddress());
+        $sttm->bindValue(':gender', ($u->getGender())->getUserGenderId());
+        $sttm->bindValue(':birthdate', (($u->getBirthdate())->getTimestamp()) * 1000);
+        $sttm->bindValue(':citizenCard', $u->getCitizenCard());
+        $sttm->bindValue(':userType', ($u->getUserType())->getUserTypeId());
         $sttm->bindValue(':isActive', $u->isActive());
-        $sttm->bindValue(':userId', $u->get_userId());
+        $sttm->bindValue(':userId', $u->getUserId());
 
         $sttm->execute();
 
@@ -123,7 +123,7 @@ class UserDAO
     public function delete(User $u)
     {
         $sttm = $this->conn->prepare('DELETE FROM user WHERE userId = :userId');
-        $sttm->bindValue(':userId', $u->get_userId());
+        $sttm->bindValue(':userId', $u->getUserId());
 
         $sttm->execute();
 

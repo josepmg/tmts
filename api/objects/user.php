@@ -29,88 +29,88 @@ class User
     public static function createWithId($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive) : User
     {
         $instance = new User($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
-        $instance->userId = $userId;
+        $instance->setUserId($userId);
 
         return $instance;
     }
 
-    function get_userId()
+    function getUserId()
     {
         return $this->userId;
     }
-    function set_userId($var)
+    function setUserId($var)
     {
         $this->userId = $var;
     }
 
-    function get_userName() : string
+    function getUserName() : string
     {
         return $this->userName;
     }
-    function set_userName($var)
+    function setUserName($var)
     {
         $this->userName = $var;
     }
 
-    function get_userLogin()
+    function getUserLogin()
     {
         return $this->userLogin;
     }
-    function set_userLogin($var)
+    function setUserLogin($var)
     {
         $this->userLogin = $var;
     }
 
-    function get_userPassword()
+    function getUserPassword()
     {
         return $this->userPassword;
     }
-    function set_userPassword($var)
+    function setUserPassword($var)
     {
         $this->userPassword = $var;
     }
 
-    function get_address()
+    function getAddress()
     {
         return $this->address;
     }
-    function set_address($var)
+    function setAddress($var)
     {
         $this->address = $var;
     }
 
-    function get_gender()
+    function getGender()
     {
         return $this->gender;
     }
-    function set_gender($var)
+    function setGender($var)
     {
         $this->gender = $var;
     }
 
-    function get_birthdate()
+    function getBirthdate()
     {
         return $this->birthdate;
     }
-    function set_birthdate($var)
+    function setBirthdate($var)
     {
         $this->birthdate = $var;
     }
 
-    function get_citizenCard()
+    function getCitizenCard()
     {
         return $this->citizenCard;
     }
-    function set_citizenCard($var)
+    function setCitizenCard($var)
     {
         $this->citizenCard = $var;
     }
 
-    function get_userType()
+    function getUserType()
     {
         return $this->userType;
     }
-    function set_userType($var)
+    function setUserType($var)
     {
         $this->userType = $var;
     }

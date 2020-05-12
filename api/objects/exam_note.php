@@ -11,7 +11,7 @@ class ExamNote{
     }
     public static function createWithId(int $examNoteId, string $examNote, User $healthProfessional): ExamNote{
         $instance = new ExamNote($examNote, $healthProfessional);
-        $instance->examNoteId = $examNoteId;
+        $instance->setExamNoteId($examNoteId);
 
         return $instance;
     }

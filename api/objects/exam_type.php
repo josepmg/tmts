@@ -13,7 +13,7 @@ class ExamType
     }
     public static function createWithId(int $examTypeId, string $examType): ExamType{
         $instance = new ExamType($examType);
-        $instance->examTypeId = $examTypeId;
+        $instance->setExamTypeId($examTypeId);
 
         return $instance;
     }

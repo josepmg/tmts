@@ -12,7 +12,7 @@ class UserGender
     }
     public static function createWithId(int $userGenderId, string $userGender): UserGender{
         $instance = new UserGender($userGender);
-        $instance->userGenderId = $userGenderId;
+        $instance->setUserGenderId($userGenderId);
         return $instance;
     }
 

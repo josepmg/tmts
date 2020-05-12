@@ -11,7 +11,7 @@ class Exam
     private ExamImage $examImages;
     private ExamNote $examNotes;
 
-    public function __construct($examId, $type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes)
+    public function __construct($type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes)
     {
         $this->examId = $examId;
         $this->type = $type;
@@ -21,6 +21,12 @@ class Exam
         $this->realizationDate = $realizationDate;
         $this->examImages = $examImages ?? array();
         $this->examNotes = $examNotes ?? array();
+    }
+    public static function createWithId($examId, $type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes){
+        $instance = new Exam($type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes);
+        $instance->setExamId($examId);
+
+        return $instance;
     }
 
     public function getExamId(): int

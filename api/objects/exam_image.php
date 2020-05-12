@@ -3,44 +3,30 @@ class ExamImage{
     private int $examImageId;
     private string $imgPath;
 
-    /**
-     * ExamImage constructor.
-     * @param int $examImageId
-     * @param string $imgPath
-     */
-    public function __construct(int $examImageId, string $imgPath)
+    public function __construct(string $imgPath)
     {
-        $this->examImageId = $examImageId;
         $this->imgPath = $imgPath;
     }
+    public static function createWithId(int $examImageId, string $imgPath) : ExamImage{
+        $instance = new ExamImage($imgPath);
+        $instance->setExamImageId($examImageId);
 
-    /**
-     * @return int
-     */
+        return $instance;
+    }
+
     public function getExamImageId(): int
     {
         return $this->examImageId;
     }
-
-    /**
-     * @param int $examImageId
-     */
     public function setExamImageId(int $examImageId): void
     {
         $this->examImageId = $examImageId;
     }
 
-    /**
-     * @return string
-     */
     public function getImgPath(): string
     {
         return $this->imgPath;
     }
-
-    /**
-     * @param string $imgPath
-     */
     public function setImgPath(string $imgPath): void
     {
         $this->imgPath = $imgPath;
