@@ -14,23 +14,36 @@ class User
     private UserType $userType;
     private bool $isActive;
 
-    public function __construct($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive)
+    public function __construct()
     {
-        $this->userName = $name;
-        $this->userLogin = $userLogin;
-        $this->userPassword = $userPassword;
-        $this->address = $address;
-        $this->gender = $gender;
-        $this->birthdate = $birthdate;
-        $this->citizenCard = $citizenCard;
-        $this->userType = $userType;
-        $this->isActive = $isActive;
     }
-    public static function createWithId($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive) : User
+    public static function create($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive)
     {
-        $instance = new User($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
+        $instance = new User();
+        $instance->setUserName($name);
+        $instance->setUserLogin($userLogin);
+        $instance->setUserPassword($userPassword);
+        $instance->setAddress($address);
+        $instance->setGender($gender);
+        $instance->setBirthdate($birthdate);
+        $instance->setCitizenCard($citizenCard);
+        $instance->setUserType($userType);
+        $instance->setIsActive($isActive);
+        return $instance;
+    }
+    public static function createWithId($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive): User
+    {
+        $instance = new User();
         $instance->setUserId($userId);
-
+        $instance->setUserName($name);
+        $instance->setUserLogin($userLogin);
+        $instance->setUserPassword($userPassword);
+        $instance->setAddress($address);
+        $instance->setGender($gender);
+        $instance->setBirthdate($birthdate);
+        $instance->setCitizenCard($citizenCard);
+        $instance->setUserType($userType);
+        $instance->setIsActive($isActive);
         return $instance;
     }
 
@@ -38,15 +51,17 @@ class User
     {
         return $this->userId;
     }
+
     function setUserId($var)
     {
         $this->userId = $var;
     }
 
-    function getUserName() : string
+    function getUserName(): string
     {
         return $this->userName;
     }
+
     function setUserName($var)
     {
         $this->userName = $var;
@@ -56,6 +71,7 @@ class User
     {
         return $this->userLogin;
     }
+
     function setUserLogin($var)
     {
         $this->userLogin = $var;
@@ -65,6 +81,7 @@ class User
     {
         return $this->userPassword;
     }
+
     function setUserPassword($var)
     {
         $this->userPassword = $var;
@@ -74,6 +91,7 @@ class User
     {
         return $this->address;
     }
+
     function setAddress($var)
     {
         $this->address = $var;
@@ -83,6 +101,7 @@ class User
     {
         return $this->gender;
     }
+
     function setGender($var)
     {
         $this->gender = $var;
@@ -92,6 +111,7 @@ class User
     {
         return $this->birthdate;
     }
+
     function setBirthdate($var)
     {
         $this->birthdate = $var;
@@ -101,6 +121,7 @@ class User
     {
         return $this->citizenCard;
     }
+
     function setCitizenCard($var)
     {
         $this->citizenCard = $var;
@@ -110,6 +131,7 @@ class User
     {
         return $this->userType;
     }
+
     function setUserType($var)
     {
         $this->userType = $var;
@@ -119,15 +141,33 @@ class User
     {
         return $this->isActive;
     }
+
     public function setIsActive(bool $isActive): void
     {
         $this->isActive = $isActive;
     }
 
-    public function toString() : string {
+    public function toString(): string
+    {
         return "{id: $this->userId, name: $this->userName, login: $this->userLogin, password: $this->userPassword, "
             . "address: $this->address, gender: " . ($this->gender)->getUserGender() . ", birthdate: "
             . ($this->birthdate)->getTimestamp() . ", citizenCard: $this->citizenCard, userType: " . ($this->userType)->getUserType()
-            .", isActive: $this->isActive}";
+            . ", isActive: $this->isActive}";
+    }
+
+    public function toJson(): array
+    {
+        $map = [];
+        if ($this->userId != null) $map['userId'] = $this->userId;
+        if ($this->userName != null) $map['userName'] = $this->userName;
+        if ($this->userLogin != null) $map['userLogin'] = $this->userLogin;
+        if ($this->userPassword != null) $map['userPassword'] = $this->userPassword;
+        if ($this->address != null) $map['address'] = $this->address;
+        if ($this->gender != null) $map['gender'] = ($this->gender)->toJson();
+        if ($this->birthdate != null) $map['birthdate'] = ($this->birthdate)->getTimestamp();
+        if ($this->citizenCard != null) $map['citizenCard'] = $this->citizenCard;
+        if ($this->userType != null) $map['userType'] = ($this->userType)->toJson();
+        if ($this->isActive != null) $map['isActive'] = $this->isActive;
+        return $map;
     }
 }

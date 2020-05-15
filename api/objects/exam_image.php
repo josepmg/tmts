@@ -32,6 +32,21 @@ class ExamImage{
         $this->imgPath = $imgPath;
     }
 
+    public function toJson() : array {
+        $map = [];
+        if ($this->examImageId != null) $map['examImageId'] = $this->examImageId;
+        if ($this->imgPath != null) $map['examImage'] = $this->imgPath;
+
+        return $map;
+    }
+    public static function listToJson(array $list) : ?array {
+        if ($list == null) return null;
+        $map = [];
+        foreach ($list as $listElement){
+            array_push($map, $listElement->toJson());
+        }
+        return $map;
+    }
 
 
 }

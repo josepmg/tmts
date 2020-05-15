@@ -32,19 +32,18 @@ class ExamImageDAO
     }
 
     /// Read
-    public function getById(int $id): ?ExamNote{
-        $sttm = $this->conn->prepare('SELECT * FROM examnote WHERE examNoteId = :examNoteId');
-        $sttm->bindValue(':examNoteId', $id);
+    public function getById(int $id): ?ExamImage{
+        $sttm = $this->conn->prepare('SELECT * FROM examImage WHERE examImageId = :examImageId');
+        $sttm->bindValue(':examImageId', $id);
 
         $sttm->execute();
         $result = $sttm->fetch(PDO::FETCH_ASSOC);
 
         if (!$result) return null;
         else {
-            return ExamNote::createWithId(
-                intval($result['examNoteId']),
-                $result['examNote'],
-                (new UserDAO())->getById(intval($result['healthProfessional'])),
+            return ExamImage::createWithId(
+                intval($result['examImageId']),
+                $result['imgPath'],
             );
         }
         $sttm = null;
@@ -52,7 +51,7 @@ class ExamImageDAO
     }
     public function getByExam(int $exam): ?array
     {
-        $sttm = $this->conn->prepare('SELECT * FROM examImageId WHERE exam = :exam');
+        $sttm = $this->conn->prepare('SELECT * FROM examImage WHERE exam = :exam');
         $sttm->bindValue(':exam', $exam);
 
         $sttm->execute();
@@ -62,13 +61,12 @@ class ExamImageDAO
                 array_push($imageList,
                     ExamImage::createWithId(
                         intval($result['examImageId']),
-                        $result['imgPath'],W
+                        $result['imgPath'],
                     )
                 );
             }
 
         }
-
         return $imageList;
         $sttm = null;
 //        $this->closeConection();

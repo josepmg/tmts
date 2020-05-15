@@ -6,14 +6,17 @@ class UserType
     private int $userTypeId;
     private string $userType;
 
-    public function __construct(string $userType)
+    public function __construct(){}
+    public static function create(string $userType)
     {
-        $this->userType = $userType;
+        $instance = new UserType();
+        $instance->setUserType($userType);
+        return $instance;
     }
     public static function createWithId(int $userTypeId, string $userType) : UserType{
-        $instance = new UserType($userType);
+        $instance = new UserType();
         $instance->setUserTypeId($userTypeId);
-
+        $instance->setUserType($userType);
         return $instance;
     }
 
@@ -35,5 +38,12 @@ class UserType
         $this->userType = $userType;
     }
 
+    public function toJson() : array {
+        $map = [];
+        if ($this->userTypeId != null) $map['userTypeId'] = $this->userTypeId;
+        if ($this->userType != null) $map['userType'] = $this->userType;
+
+        return $map;
+    }
 
 }

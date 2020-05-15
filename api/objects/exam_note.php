@@ -4,13 +4,18 @@ class ExamNote{
     private string $examNote;
     private User $healthProfessional;
 
-    public function __construct(string $examNote, User $healthProfessional)
-    {
-        $this->examNote = $examNote;
-        $this->healthProfessional = $healthProfessional;
+    public function __construct(){}
+    public static function create(string $examNote, User $healthProfessional){
+        $instance = new ExamNote();
+        $instance->setExamNote($examNote);
+        $instance->setHealthProfessional($healthProfessional);
+
+        return $instance;
     }
     public static function createWithId(int $examNoteId, string $examNote, User $healthProfessional): ExamNote{
-        $instance = new ExamNote($examNote, $healthProfessional);
+        $instance = new ExamNote();
+        $instance->setExamNote($examNote);
+        $instance->setHealthProfessional($healthProfessional);
         $instance->setExamNoteId($examNoteId);
 
         return $instance;
@@ -41,6 +46,23 @@ class ExamNote{
     public function setHealthProfessional(User $healthProfessional): void
     {
         $this->healthProfessional = $healthProfessional;
+    }
+
+    public function toJson() : array {
+        $map = [];
+        if ($this->examNoteId != null) $map['examNoteId'] = $this->examNoteId;
+        if ($this->examNote != null) $map['examNote'] = $this->examNote;
+        if ($this->healthProfessional != null) $map['healthProfessional'] = ($this->healthProfessional)->toJson();
+
+        return $map;
+    }
+    public static function listToJson(array $list) : ?array {
+        if ($list == null) return null;
+        $map = [];
+        foreach ($list as $listElement){
+            array_push($map, json_encode($listElement->toJson()));
+        }
+        return $map;
     }
 
 

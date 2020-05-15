@@ -77,18 +77,17 @@ class UserDAO
 
         if (!$result) return null;
         else {
-            $userGender = (new UserGenderDAO())->getById(intval($result['gender']));
-            $userTye = (new UserTypeDAO())->getById(intval($result['userType']));
+
             return User::createWithId(
                 intval($result['userId']),
                 $result['name'],
                 $result['userLogin'],
                 $result['userPassword'],
                 $result['address'],
-                $userGender,
-                (new DateTime())->setTimestamp(intval($result['birthdate'])),
+                (new UserGenderDAO())->getById(intval($result['gender'])),
+                (new DateTime())->setTimestamp(doubleval($result['birthdate'])),
                 $result['citizenCard'],
-                $userTye,
+                (new UserTypeDAO())->getById(intval($result['userType'])),
                 boolval($result['isActive']),
             );
         }
@@ -107,7 +106,7 @@ class UserDAO
         $sttm->bindValue(':userPassword', $u->getUserPassword());
         $sttm->bindValue(':address', $u->getAddress());
         $sttm->bindValue(':gender', ($u->getGender())->getUserGenderId());
-        $sttm->bindValue(':birthdate', (($u->getBirthdate())->getTimestamp()) * 1000);
+        $sttm->bindValue(':birthdate', ($u->getBirthdate())->getTimestamp());
         $sttm->bindValue(':citizenCard', $u->getCitizenCard());
         $sttm->bindValue(':userType', ($u->getUserType())->getUserTypeId());
         $sttm->bindValue(':isActive', $u->isActive());

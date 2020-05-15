@@ -106,6 +106,18 @@ class Exam
         array_push($this->exmamNotes, $examNote);
     }
 
+    public function toJson() : array {
+        $map = [];
+        if ($this->examId != null) $map['examId'] = $this->examId;
+        if ($this->type != null) $map['type'] = ($this->type)->toJson();
+        if ($this->patient != null) $map['patient'] = ($this->patient)->toJson();
+        if ($this->doctor != null) $map['doctor'] = ($this->doctor)->toJson();
+        if ($this->techinitian != null) $map['techinitian'] = ($this->techinitian)->toJson();
+        if ($this->realizationDate != null) $map['realizationDate'] = ($this->realizationDate)->getTimestamp();
+        if ($this->examImages != null) $map['examImages'] = ExamImage::listToJson($this->examImages);
+        if ($this->examNotes != null) $map['examNotes'] = ExamNote::listToJson($this->examNotes);
 
+        return $map;
+    }
 
 }

@@ -52,7 +52,7 @@ class ExamNoteDAO
     }
     public function getByExam(int $exam): ?array
     {
-        $sttm = $this->conn->prepare('SELECT * FROM examtype WHERE exam = :exam');
+        $sttm = $this->conn->prepare('SELECT * FROM examNote WHERE exam = :exam');
         $sttm->bindValue(':exam', $exam);
 
         $sttm->execute();
@@ -62,7 +62,8 @@ class ExamNoteDAO
                 array_push($noteList,
                     ExamNote::createWithId(
                         intval($result['examNoteId']),
-                        $result['examNote'], (new UserDAO())->getById(intval($result['healthProfessional']))
+                        $result['examNote'],
+                        (new UserDAO())->getById(intval($result['healthProfessional']))
                     )
                 );
             }
@@ -73,8 +74,8 @@ class ExamNoteDAO
     }
     public function getByHealthProfessional(int $healthProfeesional): ?array
     {
-        $sttm = $this->conn->prepare('SELECT * FROM examtype WHERE healthProfeesional = :healthProfeesional');
-        $sttm->bindValue(':healthProfeesional', $healthProfeesional);
+        $sttm = $this->conn->prepare('SELECT * FROM examNote WHERE healthProfessional = :healthProfessional');
+        $sttm->bindValue(':healthProfessional', $healthProfeesional);
 
         $sttm->execute();
         $noteList = [];

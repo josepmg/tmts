@@ -36,6 +36,14 @@ class ExamType
         $this->examType = $examType;
     }
 
+    public function toJson() : array {
+        $map = [];
+        if ($this->examTypeId != null) $map['examTypeId'] = $this->examTypeId;
+        if ($this->examType != null) $map['examType'] = $this->examType;
+
+        return $map;
+    }
+
 
 
 }

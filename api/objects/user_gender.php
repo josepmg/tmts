@@ -6,13 +6,17 @@ class UserGender
     private int $userGenderId;
     private string $userGender;
 
-    public function __construct(string $userGender)
+    public function __construct(){}
+    public static function create(string $userGender)
     {
-        $this->userGender = $userGender;
+        $instance = new UserGender();
+        $instance->setUserGender($userGender);
+        return $instance;
     }
     public static function createWithId(int $userGenderId, string $userGender): UserGender{
-        $instance = new UserGender($userGender);
+        $instance = new UserGender();
         $instance->setUserGenderId($userGenderId);
+        $instance->setUserGender($userGender);
         return $instance;
     }
 
@@ -34,6 +38,12 @@ class UserGender
         $this->userGender = $userGender;
     }
 
+    public function toJson() : array {
+        $map = [];
+        if ($this->userGenderId != null) $map['userGenderId'] = $this->userGenderId;
+        if ($this->userGender != null) $map['userGender'] = $this->userGender;
 
+        return $map;
+    }
 
 }
