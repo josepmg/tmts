@@ -94,6 +94,31 @@ class UserDAO
         $sttm = null;
 //        $this->closeConection();
     }
+    public function login(string $userLogin, string $userPassword): ?User{
+        $sttm = $this->conn->prepare('SELECT * FROM user WHERE userLogin = :userLogin AND userPassword = :userPassword');
+        $sttm->bindValue(':userLogin', $userLogin);
+        $sttm->bindValue(':userPassword', $userPassword);
+
+        $sttm->execute();
+        $result = $sttm->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result) return null;
+        else {
+            return User::createWithId(
+                intval($result['userId']),
+                $result['name'],
+                $result['userLogin'],
+                $result['userPassword'],
+                $result['address'],
+                (new UserGenderDAO())->getById(intval($result['gender'])),
+                (new DateTime())->setTimestamp(doubleval($result['birthdate'])),
+                $result['citizenCard'],
+                (new UserTypeDAO())->getById(intval($result['userType'])),
+                boolval($result['isActive']),
+            );
+        }
+        $sttm = null;
+    }
 
     /// Update
     public function update(User $u)
