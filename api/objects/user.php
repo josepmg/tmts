@@ -170,4 +170,13 @@ class User
         if ($this->isActive != null) $map['isActive'] = $this->isActive;
         return $map;
     }
+    public function credentialsToJson() : array{
+        $map = [];
+        if ($this->userId != null) $map['userId'] = $this->userId;
+        if ($this->userName != null) $map['userName'] = $this->userName;
+        if ($this->userLogin != null) $map['userLogin'] = $this->userLogin;
+        if ($this->userType != null) $map['userType'] = ($this->userType)->getUserType();
+
+        return $map;
+    }
 }
