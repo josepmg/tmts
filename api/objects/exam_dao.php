@@ -16,7 +16,7 @@ class ExamDAO
     }
 
     /// Create
-    public function add(Exam $exam)
+    public function add($type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes): bool
     {
         $examNoteDAO = new ExamNoteDAO();
         $examImageDAO = new ExamImageDAO();
@@ -24,29 +24,28 @@ class ExamDAO
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'exam(examType, patient, doctor, technician, realizationDate) '
             . 'VALUES (:examType, :patient, :doctor, :technician, :realizationDate)');
-        $sttm->bindValue(':examType', ($exam->getType())->getExamTypeId());
-        $sttm->bindValue(':patient', ($exam->getPatient())->getUserId());
-        $sttm->bindValue(':doctor', ($exam->getDoctor())->getUserId());
-        $sttm->bindValue(':technician', ($exam->getTechinitian())->getUserId());
-        $sttm->bindValue(':realizationDate', ($exam->getRealizationDate())->getTimestamp());
+        $sttm->bindValue(':examType', $type);
+        $sttm->bindValue(':patient', $patient);
+        $sttm->bindValue(':doctor', $doctor);
+        $sttm->bindValue(':technician', $techinitian);
+        $sttm->bindValue(':realizationDate', $realizationDate);
 
 
-        $sttm->execute();
+        $result = $sttm->execute();
         $inserted = $sttm->fetch(PDO::FETCH_ASSOC);
+        $sttm = null;
 
+        /// Insert exam images in DB
+        foreach ($examImages as $examImage) {
+            $examImageDAO->add($examImage, $inserted);
+        }
 
         /// Insert exam notes in DB
-        foreach ($exam->getExamNotes() as $examNote) {
-            $examNoteDAO . add($examNote, $inserted);
-        }
-        /// Insert exam images in DB
-        foreach ($exam->getExamImages() as $examImages) {
-            $examImageDAO . add($examImages, $inserted);
+        foreach ($examNotes as $examNote) {
+            $examNoteDAO->add($examNote['examNote'], $examNote['healthProfessional'], $inserted);
         }
 
-
-        $sttm = null;
-//        $this->closeConection();
+        return $result;
     }
 
     /// Read
@@ -215,33 +214,33 @@ class ExamDAO
     }
 
     /// Update
-    public function update(Exam $exam)
+    public function update(int $examId, int $type, int $patient, int $doctor, int $techinitian, double $realizationDate): bool
     {
         $sttm = $this->conn->prepare('UPDATE user SET examType = :examType, patient = :patient, '
             . 'doctor = :doctor, technician = :technician, realizationDate = :realizationDate '
             . 'WHERE :examId');
-        $sttm->bindValue(':examType', ($exam->getType())->getExamTypeId());
-        $sttm->bindValue(':patient', ($exam->getPatient())->getUserId());
-        $sttm->bindValue(':doctor', ($exam->getDoctor())->getUserId());
-        $sttm->bindValue(':technician', ($exam->getTechinitian())->getUserId());
-        $sttm->bindValue(':realizationDate', ($exam->getRealizationDate())->getTimestamp() * 1000);
-        $sttm->bindValue(':examId', $exam->getExamId());
+        $sttm->bindValue(':examType', $type);
+        $sttm->bindValue(':patient', $patient);
+        $sttm->bindValue(':doctor', $doctor);
+        $sttm->bindValue(':technician', $techinitian);
+        $sttm->bindValue(':realizationDate', $realizationDate * 1000);
+        $sttm->bindValue(':examId', $examId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Delete
-    public function delete(Exam $exam)
-    {
+    public function delete(int $examId): bool{
         $sttm = $this->conn->prepare('DELETE FROM exam WHERE examId = :examId');
-        $sttm->bindValue(':examId', $exam->getExamId());
+        $sttm->bindValue(':examId', $examId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
+
+        return $result;
 
     }
 

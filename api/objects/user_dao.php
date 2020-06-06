@@ -7,40 +7,48 @@ class UserDAO
 
     public function __construct()
     {
-        $this->conn = (new Database())->getConnection();;
+        $this->conn = (new Database())->getConnection();
     }
 
-    public function closeConection(): void
+    public function openConnection() :void{
+        $this->conn = (new Database())->getConnection();
+    }
+    public function closeConnection(): void
     {
+        echo 'fechando conexão';
         $this->conn = null;
+    }
+    public function getConnection(): ?PDO{
+        return $this->conn;
     }
 
     /// Create
-    public function add(User $u)
+    public function add($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive) :bool
     {
+        if ($this->conn == null) $this->openConnection();
         $sttm = $this->conn->prepare('INSERT INTO user(name, userLogin, userPassword, address, gender, '
             . 'birthdate, citizenCard, userType, isActive) VALUES (:userName, :userLogin, :userPassword, '
             . ':address, :gender, :birthdate, :citizenCard, :userType, :isActive)');
-        $sttm->bindValue(':userName', $u->getUserName());
-        $sttm->bindValue(':userLogin', $u->getUserLogin());
-        $sttm->bindValue(':userPassword', $u->getUserPassword());
-        $sttm->bindValue(':address', $u->getAddress());
-        $sttm->bindValue(':gender', ($u->getGender())->getUserGenderId());
-        $sttm->bindValue(':birthdate', (($u->getBirthdate())->getTimestamp()) * 1000);
-        $sttm->bindValue(':citizenCard', $u->getCitizenCard());
-        $sttm->bindValue(':userType', ($u->getUserType())->getUserTypeId());
-        $sttm->bindValue(':isActive', $u->isActive());
+        $sttm->bindValue(':userName', $name);
+        $sttm->bindValue(':userLogin', $userLogin);
+        $sttm->bindValue(':userPassword', $userPassword);
+        $sttm->bindValue(':address', $address);
+        $sttm->bindValue(':gender', $gender);
+        $sttm->bindValue(':birthdate', $birthdate * 1000);
+        $sttm->bindValue(':citizenCard', $citizenCard);
+        $sttm->bindValue(':userType', $userType);
+        $sttm->bindValue(':isActive', $isActive);
 
-        $sttm->execute();
-        $inserted = $sttm->fetchAll();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Read
     public function getById(int $userId): ?User
     {
+        if ($this->conn == null) $this->openConnection();
         $sttm = $this->conn->prepare('SELECT * FROM user WHERE userId = :userId');
         $sttm->bindValue(':userId', $userId);
 
@@ -65,10 +73,11 @@ class UserDAO
             );
         }
         $sttm = null;
-//        $this->closeConection();
+//        $this->closeConnection();
     }
     public function getByLogin(string $userLogin): ?User
     {
+        if ($this->conn == null) $this->openConnection();
         $sttm = $this->conn->prepare('SELECT * FROM user WHERE userLogin = :userLogin');
         $sttm->bindValue(':userLogin', $userLogin);
 
@@ -92,9 +101,11 @@ class UserDAO
             );
         }
         $sttm = null;
-//        $this->closeConection();
+//        $this->closeConnection();
     }
-    public function login(string $userLogin, string $userPassword): ?User{
+    public function login(string $userLogin, string $userPassword): ?User
+    {
+        if ($this->conn == null) $this->openConnection();
         $sttm = $this->conn->prepare('SELECT * FROM user WHERE userLogin = :userLogin AND userPassword = :userPassword');
         $sttm->bindValue(':userLogin', $userLogin);
         $sttm->bindValue(':userPassword', $userPassword);
@@ -118,40 +129,43 @@ class UserDAO
             );
         }
         $sttm = null;
+//        $this->closeConnection();
     }
 
     /// Update
-    public function update(User $u)
+    public function update($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive) :bool
     {
-        $sttm = $this->conn->prepare('UPDATE user SET userId = :userId, name = :name, userLogin= :userLogin, '
+        if ($this->conn == null) $this->openConnection();
+        $sttm = $this->conn->prepare('UPDATE user SET userId = :userId, name = :userName, userLogin= :userLogin, '
             . 'userPassword= :userPassword, address= :address, gender= :gender, birthdate= :birthdate, '
             . 'citizenCard= :citizenCard, userType= :userType, isActive = :isActive WHERE :userId');
-        $sttm->bindValue(':userName', $u->getUserName());
-        $sttm->bindValue(':userLogin', $u->getUserLogin());
-        $sttm->bindValue(':userPassword', $u->getUserPassword());
-        $sttm->bindValue(':address', $u->getAddress());
-        $sttm->bindValue(':gender', ($u->getGender())->getUserGenderId());
-        $sttm->bindValue(':birthdate', ($u->getBirthdate())->getTimestamp());
-        $sttm->bindValue(':citizenCard', $u->getCitizenCard());
-        $sttm->bindValue(':userType', ($u->getUserType())->getUserTypeId());
-        $sttm->bindValue(':isActive', $u->isActive());
-        $sttm->bindValue(':userId', $u->getUserId());
+        $sttm->bindValue(':userId', $userId);
+        $sttm->bindValue(':userName', $name);
+        $sttm->bindValue(':userLogin', $userLogin);
+        $sttm->bindValue(':userPassword', $userPassword);
+        $sttm->bindValue(':address', $address);
+        $sttm->bindValue(':gender', $gender);
+        $sttm->bindValue(':birthdate', $birthdate * 1000);
+        $sttm->bindValue(':citizenCard', $citizenCard);
+        $sttm->bindValue(':userType', $userType);
+        $sttm->bindValue(':isActive', $isActive);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Delete
-    public function delete(User $u)
+    public function delete(int $userId) :bool
     {
+        if ($this->conn == null) $this->openConnection();
         $sttm = $this->conn->prepare('DELETE FROM user WHERE userId = :userId');
-        $sttm->bindValue(':userId', $u->getUserId());
+        $sttm->bindValue(':userId', $userId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
 
+        return $result;
     }
 }

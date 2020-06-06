@@ -11,8 +11,9 @@
         Home page <br>
 
         <?php
-            $exam = (new ExamDAO())->getById(1);
-            $responseJson = json_encode($exam->toJson());
+            $userDAO = new UserDAO();
+            $user = ( new UserDAO())->getById(1);
+            $responseJson = json_encode($user->toJson());
             print_r($responseJson);
 
         ?>

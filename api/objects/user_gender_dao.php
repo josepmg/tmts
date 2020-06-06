@@ -16,18 +16,18 @@ class UserGenderDAO
     }
 
     /// Create
-    public function add(UserGender $g)
+    public function add(string $userGender): bool
     {
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'gendertype(gender) '
             . 'VALUES (:gender)');
-        $sttm->bindValue(':gender', $g->getUserGender());
+        $sttm->bindValue(':gender', $userGender);
 
-        $sttm->execute();
+        $result = $sttm->execute();
         $inserted = $sttm->fetchAll();
-
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Read
@@ -69,28 +69,28 @@ class UserGenderDAO
     }
 
     /// Update
-    public function update(UserGender $ug)
+    public function update(int $userGenderId, string $userGender): bool
     {
         $sttm = $this->conn->prepare('UPDATE gendertype SET gender = :gender WHERE genderId = :genderId');
-        $sttm->bindValue(':genderId', $ug->getUserGenderId());
-        $sttm->bindValue(':gender', $ug->getUserGender());
+        $sttm->bindValue(':genderId', $userGenderId);
+        $sttm->bindValue(':gender', $userGender);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Delete
-    public function delete(UserGender $ug)
+    public function delete(int $userGenderId): bool
     {
         $sttm = $this->conn->prepare('DELETE FROM gendertype WHERE genderId = :genderId');
-        $sttm->bindValue(':genderId', $ug->getUserGenderId());
+        $sttm->bindValue(':genderId', $userGenderId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
 

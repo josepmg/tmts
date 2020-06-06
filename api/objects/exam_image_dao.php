@@ -16,19 +16,18 @@ class ExamImageDAO
     }
 
     /// Create
-    public function add(ExamImage $examImage, int $examId)
+    public function add(string $examImagePath, int $examId): bool
     {
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'examimage(imgPath, exam) '
             . 'VALUES (:imgPath, :exam)');
-        $sttm->bindValue(':imgPath', $examImage->getImgPath());
+        $sttm->bindValue(':imgPath', $examImagePath);
         $sttm->bindValue(':exam', $examId);
 
-        $sttm->execute();
-        $inserted = $sttm->fetchAll();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Read
@@ -73,29 +72,29 @@ class ExamImageDAO
     }
 
     /// Update
-    public function update(ExamImage $examImage, int $exam)
+    public function update(int $examImageId, string $examImagePath, int $exam): bool
     {
         $sttm = $this->conn->prepare('UPDATE examimage SET imgPath = :imgPath, exam = :exam, '
             . 'WHERE examImageId = :examImageId');
-        $sttm->bindValue(':imgPath', $examImage->getExamImageId());
+        $sttm->bindValue(':imgPath', $examImagePath);
         $sttm->bindValue(':exam', $exam);
-        $sttm->bindValue(':examImageId', $examImage->getExamImageId());
+        $sttm->bindValue(':examImageId', $examImageId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Delete
-    public function delete(ExamImage $examImage)
+    public function delete(int $examImageId): bool
     {
         $sttm = $this->conn->prepare('DELETE FROM examimage WHERE examImageId = :examImageId');
-        $sttm->bindValue(':examImageId', $examImage->getExamImageId());
+        $sttm->bindValue(':examImageId', $examImageId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 }

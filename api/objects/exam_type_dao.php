@@ -16,18 +16,17 @@ class ExamTypeDAO
     }
 
     /// Create
-    public function add(ExamType $et)
+    public function add(string $examType): bool
     {
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'examtype(examType) '
             . 'VALUES (:examType)');
-        $sttm->bindValue(':examType', $et->getExamType());
+        $sttm->bindValue(':examType', $examType);
 
-        $sttm->execute();
-        $inserted = $sttm->fetchAll();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Read
@@ -67,28 +66,28 @@ class ExamTypeDAO
     }
 
     /// Update
-    public function update(ExamType $et)
+    public function update(int $examTypeId, string $examType): bool
     {
         $sttm = $this->conn->prepare('UPDATE examtype SET examType = :examType WHERE examTypeId = :examTypeId');
-        $sttm->bindValue(':examTypeId', $et->getExamTypeId());
-        $sttm->bindValue(':examType', $et->getExamType());
+        $sttm->bindValue(':examTypeId', $examTypeId);
+        $sttm->bindValue(':examType', $examType);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Delete
-    public function delete(ExamType $et)
+    public function delete(int $examTypeId): bool
     {
         $sttm = $this->conn->prepare('DELETE FROM examtype WHERE examTypeId = :examTypeId');
-        $sttm->bindValue(':userTypeId', $et->getExamTypeId());
+        $sttm->bindValue(':userTypeId', $examTypeId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
 }

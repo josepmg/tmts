@@ -15,20 +15,19 @@ class ExamNoteDAO
     }
 
     /// Create
-    public function add(ExamNote $examNote, int $examId)
+    public function add(string $examNote, int $healthProfessional, int $examId): bool
     {
         $sttm = $this->conn->prepare('INSERT INTO '
             . 'examnote(examNote, exam, healthProfessional) '
             . 'VALUES (:examNote, :exam, :healthProfessional )');
-        $sttm->bindValue(':examNote', $examNote->getExamNote());
+        $sttm->bindValue(':examNote', $examNote);
         $sttm->bindValue(':exam', $examId);
-        $sttm->bindValue(':healthProfessional', ($examNote->getHealthProfessional())->getUserId());
+        $sttm->bindValue(':healthProfessional', $healthProfessional);
 
-        $sttm->execute();
-        $inserted = $sttm->fetchAll();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Read
@@ -84,7 +83,8 @@ class ExamNoteDAO
                 array_push($noteList,
                     ExamNote::createWithId(
                         intval($result['examNoteId']),
-                        $result['examNote'], (new UserDAO())->getById(intval($result['healthProfessional']))
+                        $result['examNote'],
+                        (new UserDAO())->getById(intval($result['healthProfessional']))
                     )
                 );
             }
@@ -96,31 +96,31 @@ class ExamNoteDAO
     }
 
     /// Update
-    public function update(ExamNote $examNote, int $exam)
+    public function update(int $examNoteId, string $examNote, int $healthProfessional, int $examId): bool
     {
         $sttm = $this->conn->prepare('UPDATE examnote SET examNote = :examNote, exam = :exam, '
             . 'healthProfessional = :healthProfessional WHERE examNoteId = :examNoteId');
-        $sttm->bindValue(':examNoteId', $examNote->getExamNoteId());
-        $sttm->bindValue(':examNote', $examNote->getExamNote());
-        $sttm->bindValue(':exam', $exam);
-        $sttm->bindValue(':healthProfessional', $examNote->getHealthProfessional());
+        $sttm->bindValue(':examNoteId', $examNoteId);
+        $sttm->bindValue(':examNote', $examNote);
+        $sttm->bindValue(':exam', $examId);
+        $sttm->bindValue(':healthProfessional', $healthProfessional);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
     /// Delete
-    public function delete(ExamNote $examNote)
+    public function delete(int $examNoteId): bool
     {
         $sttm = $this->conn->prepare('DELETE FROM examnote WHERE examNoteId = :examNoteId');
-        $sttm->bindValue(':examNoteId', $examNote->getExamNoteId());
+        $sttm->bindValue(':examNoteId', $examNoteId);
 
-        $sttm->execute();
-
+        $result = $sttm->execute();
         $sttm = null;
-//        $this->closeConection();
+
+        return $result;
     }
 
 }

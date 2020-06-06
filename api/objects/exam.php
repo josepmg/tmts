@@ -18,8 +18,8 @@ class Exam
         $this->doctor = $doctor;
         $this->techinitian = $techinitian;
         $this->realizationDate = $realizationDate;
-        $this->examImages = $examImages ?? array();
-        $this->examNotes = $examNotes ?? array();
+        $this->examImages = $examImages ??[];
+        $this->examNotes = $examNotes ?? [];
     }
     public static function createWithId($examId, $type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes){
         $instance = new Exam($type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes);
