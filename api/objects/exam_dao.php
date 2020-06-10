@@ -9,7 +9,9 @@ class ExamDAO
     {
         $this->conn = (new Database())->getConnection();;
     }
-
+    public function openConnection() :void{
+        $this->conn = (new Database())->getConnection();
+    }
     public function closeConection(): void
     {
         $this->conn = null;
@@ -55,7 +57,7 @@ class ExamDAO
 
         $sttm->execute();
         $result = $sttm->fetch(PDO::FETCH_ASSOC);
-
+        $sttm = null;
         if (!$result) return null;
         else {
             return Exam::createWithId(
@@ -69,14 +71,12 @@ class ExamDAO
                 (new ExamNoteDAO())->getByExam($id),
             );
         }
-        $sttm = null;
-//        $this->closeConection();
     }
     public function getByPatiet(int $patient): ?array
     {
-        $sttm = $this->conn->prepare('SELECT * FROM exam WHERE patient = :patient');
-        $sttm->bindValue(':patient ', $patient);
-
+        if ($this->conn == null) $this->openConnection();
+        $sttm = $this->conn->prepare('select * from exam where patient = :patientId');
+        $sttm->bindValue(':patientId', $patient);
         $sttm->execute();
         $noteList = [];
         if ($sttm->rowCount() > 0) {
@@ -94,11 +94,10 @@ class ExamDAO
                     )
                 );
             }
-            return $noteList;
         }
+        return $noteList;
 
         $sttm = null;
-//        $this->closeConection();
     }
     public function getByDoctor(int $doctor): ?array
     {
@@ -122,8 +121,8 @@ class ExamDAO
                     )
                 );
             }
-            return $noteList;
         }
+        return $noteList;
 
         $sttm = null;
 //        $this->closeConection();
@@ -150,8 +149,10 @@ class ExamDAO
                     )
                 );
             }
-            return $noteList;
         }
+        return $noteList;
+
+        $sttm = null;
 
         $sttm = null;
 //        $this->closeConection();
@@ -178,10 +179,11 @@ class ExamDAO
                     )
                 );
             }
-            return $noteList;
         }
+        return $noteList;
 
         $sttm = null;
+
 //        $this->closeConection();
     }
     public function getByRealizationDate(double $realizationDate): ?array
@@ -206,8 +208,8 @@ class ExamDAO
                     )
                 );
             }
-            return $noteList;
         }
+        return $noteList;
 
         $sttm = null;
 //        $this->closeConection();

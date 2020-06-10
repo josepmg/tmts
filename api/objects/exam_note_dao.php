@@ -88,8 +88,8 @@ class ExamNoteDAO
                     )
                 );
             }
-            return $noteList;
         }
+        return $noteList;
 
         $sttm = null;
 //        $this->closeConection();

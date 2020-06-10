@@ -119,5 +119,13 @@ class Exam
 
         return $map;
     }
+    public static function listToJson(array $list) : ?array {
+        if ($list == null) return null;
+        $map = [];
+        foreach ($list as $listElement){
+            array_push($map, $listElement->toJson());
+        }
+        return $map;
+    }
 
 }

@@ -2,7 +2,7 @@
 include 'api/config/includes.php';
 class UserController{
 
-    public static function createUser($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive): string {
+    public static function createUser($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive): array {
         $result = [];
         if ($name == null || $name == '' ||
             $userLogin == null || $userLogin == '' ||
@@ -13,54 +13,92 @@ class UserController{
             $citizenCard == null || $citizenCard == '' ||
             $userType == null || $userType == 0 ||
             $isActive == null || $isActive == false){
-            $result['statusCode'] = '400';
-            $result['body'] = "Register not found";
+            $result['statusCode'] = 400;
+            $result['body'] = ["message" => "Invalid input(s)"];
+        } elseif (userController::checkSessionVariables() && userController::isAdmin()){
+            $result['statusCode'] = '401';
+            $result['body'] = ["message" => "Access not allowed"];
         } else {
-            $user = (new UserDAO())->add($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
-            $result['statusCode'] = '200';
-            $result['body'] = strval($user);
+            try {
+                $user = (new UserDAO())->add($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
+                $result['statusCode'] = '200';
+                $result['body'] = strval($user);
+            } catch (Exception $e) {
+                $result['statusCode'] = '501';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
         }
-        return json_encode($result);
+        return ($result);
     }
 
-    public static function getUserById(int $userId): string {
+    public static function getUserById(int $userId): array {
         $result = [];
         if ($userId == null || $userId == 0){
             $result['statusCode'] = '400';
-            $result['body'] = "Register not found";
+            $result['body'] = ["message" => "Invalid input(s)"];
         } else {
-            $user = ( new UserDAO())->getById($userId);
-            $result['statusCode'] = '200';
-            $result['body'] = $user->toJson();
+            try {
+                $user = (new UserDAO())->getById($userId);
+                if ($user != null) {
+                    $result['body'] = ["result" => $user->toJson()];
+                    $result['statusCode'] = '200';
+                } else {
+                    $result['body'] = ["message" => "No records found"];
+                    $result['statusCode'] = '200';
+                }
+            } catch (Exception $e) {
+                $result['statusCode'] = '501';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
         }
-        return json_encode($result);
+        return  ($result);
     }
-    public static function getUserByLogin(string $userLogin): string {
+    public static function getUserByLogin(string $userLogin): array {
         $result = [];
         if ($userLogin == null || $userLogin == ''){
             $result['statusCode'] = '400';
-            $result['body'] = "Register not found";
+            $result['body'] = ["message" => "Invalid input(s)"];
         } else {
-            $user = ( new UserDAO())->getByLogin($userLogin);
-            $result['statusCode'] = '200';
-            $result['body'] = $user->toJson();
+            try {
+                $user = (new UserDAO())->getByLogin($userLogin);
+                if ($user != null) {
+                    $result['body'] = ["result" => $user->toJson()];
+                    $result['statusCode'] = '200';
+                } else {
+                    $result['body'] = ["message" => "No records found"];
+                    $result['statusCode'] = '200';
+                }
+            } catch (Exception $e) {
+                $result['statusCode'] = '501';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
         }
-        return json_encode($result);
+        return  ($result);
     }
-    public static function doLogin(string $userLogin, string $userPassword): string {
+    public static function doLogin(string $userLogin, string $userPassword): array {
         $result = [];
         if ($userLogin == null || $userLogin == '' || $userPassword == null || $userPassword == ''){
             $result['statusCode'] = '400';
-            $result['body'] = "Register not found";
+            $result['body'] = ["message" => "Invalid input(s)"];
         } else {
-            $user = ( new UserDAO())->login($userLogin, $userPassword);
-            $result['statusCode'] = '200';
-            $result['body'] = $user->credentialsToJson();
+            try {
+                $user = (new UserDAO())->login($userLogin, $userPassword);
+                if ($user != null) {
+                    $result['statusCode'] = '200';
+                    $result['body'] = ["result" => $user->toJson()];
+                } else {
+                    $result['statusCode'] = '204';
+                    $result['body'] = ["message" => "No records found"];
+                }
+            } catch (Exception $e) {
+                $result['statusCode'] = '501';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
         }
-        return json_encode($result);
+        return  ($result);
     }
 
-    public static function updateUser(int $userId, string $name, string $userLogin, string $userPassword, string $address, int $gender, double $birthdate, string $citizenCard, int $userType, bool $isActive): string {
+    public static function updateUser(int $userId, string $name, string $userLogin, string $userPassword, string $address, int $gender, double $birthdate, string $citizenCard, int $userType, bool $isActive): array {
         $result = [];
         if ($userId == null || $userId == 0 ||
             $name == null || $name == '' ||
@@ -73,25 +111,53 @@ class UserController{
             $userType == null || $userType == 0 ||
             $isActive == null || $isActive == false ){
             $result['statusCode'] = '400';
-            $result['body'] = "Register not found";
+            $result['body'] = ["message" => "Invalid input(s)"];
         } else {
-            $user = (new UserDAO())->update($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
-            $result['statusCode'] = '200';
-            $result['body'] = strval($user);
+            try {
+                $user = (new UserDAO())->update($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
+                $result['statusCode'] = '200';
+                $result['body'] = strval($user);
+            } catch (Exception $e) {
+                $result['statusCode'] = '501';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
         }
-        return json_encode($result);
+        return  ($result);
     }
 
-    public static function deletUser(int $userId): string {
+    public static function deletUser(int $userId): array {
         $result = [];
         if ($userId == null || $userId == 0){
             $result['statusCode'] = '404';
-            $result['body'] = "Register not found";
+            $result['body'] = ["message" => "Invalid input(s)"];
+        } elseif (userController::checkSessionVariables() && userController::isAdmin()){
+            $result['statusCode'] = '401';
+            $result['body'] = ["message" => "Access not allowed"];
         } else {
-            $user = (new UserDAO())->delete($userId);
-            $result['statusCode'] = '200';
-            $result['body'] = strval($user);
+            try {
+                $user = (new UserDAO())->delete($userId);
+                $result['statusCode'] = '200';
+                $result['body'] = strval($user);
+            } catch (Exception $e) {
+                $result['statusCode'] = '501';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
         }
-        return json_encode($result);
+        return  ($result);
+    }
+
+    private static function checkSessionVariables(): bool{
+        return (isset($_SESSION['userId']) ||
+            isset($_SESSION['userName']) ||
+            isset($_SESSION['userLogin']) ||
+            isset($_SESSION['userType']));
+    }
+
+    private static function isProfessional(): bool{
+        return (isset($_SESSION['userType']) && $_SESSION['userType'] != 4);
+    }
+
+    private static function isAdmin(): bool{
+        return (isset($_SESSION['userType']) && $_SESSION['userType'] == 1);
     }
 }
