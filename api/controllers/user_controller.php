@@ -153,10 +153,6 @@ class UserController{
             isset($_SESSION['userType']));
     }
 
-    private static function isProfessional(): bool{
-        return (isset($_SESSION['userType']) && $_SESSION['userType'] != 4);
-    }
-
     private static function isAdmin(): bool{
         return (isset($_SESSION['userType']) && $_SESSION['userType'] == 1);
     }

@@ -25,6 +25,17 @@
     /// Treat requested action
         switch ($action){
             case "createExam":
+                $result = ExamController::createExam(
+                    $_GET['type'],
+                    $_GET['patient'],
+                    $_GET['doctor'],
+                    $_GET['techinitian'],
+                    $_GET['realizationDate'],
+                    $_GET['examImages'],
+                    $_GET['examNotes']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamById":
                 $result = ExamController::getExamById(
@@ -55,56 +66,170 @@
                 echo json_encode($result['body']);
                 break;
             case "getExamByType":
+                $result = ExamController::getExamByType(
+                    $_GET['examTypeId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamByRealizationDate":
+                $result = ExamController::getExamByRealizationDate(
+                    $_GET['realizationDate']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "updateExam":
+                $result = ExamController::updateExam(
+                    $_GET['examId'],
+                    $_GET['type'],
+                    $_GET['patient'],
+                    $_GET['doctor'],
+                    $_GET['techinitian'],
+                    $_GET['realizationDate']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "deleteExam":
+                $result = ExamController::deleteExam(
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "createExamImage":
+                $result = ExamController::createExamImage(
+                    $_GET['examImagePath'],
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamImageById":
+                $result = ExamController::getExamImageById(
+                    $_GET['examImageId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamImageByExam":
+                $result = ExamController::getExamImageByExam(
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "updateExamImage":
+                $result = ExamController::updateExamImage(
+                    $_GET['examImageId'],
+                    $_GET['examImagePath'],
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "deleteExamImage":
+                $result = ExamController::deleteExamImage(
+                    $_GET['examImageId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "createExamNote":
+                $result = ExamController::createExamNote(
+                    $_GET['examNote'],
+                    $_GET['healthProfessional'],
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamNoteById":
+                $result = ExamController::getExamNoteById(
+                    $_GET['examNoteId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamNoteByExam":
+                $result = ExamController::getExamNoteByExam(
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamNoteByHealthProfessional":
+                $result = ExamController::getExamNoteByHealthProfessional(
+                    $_GET['healthProfessionalId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "updateExamNote":
+                $result = ExamController::updateExamNote(
+                    $_GET['examNoteId'],
+                    $_GET['examNote'],
+                    $_GET['healthProfessional'],
+                    $_GET['examId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "deleteExamNote":
+                $result = ExamController::deleteExamNote(
+                    $_GET['examNoteId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "createExamType":
+                $result = ExamController::createExamType(
+                    $_GET['examType']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamTypeById":
+                $result = ExamController::getExamTypeById(
+                    $_GET['examTypeId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "getExamTypeByType":
+                $result = ExamController::getExamTypeByType(
+                    $_GET['examType']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "updateExamType":
+                $result = ExamController::updateExamType(
+                    $_GET['examTypeId'],
+                    $_GET['examType']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "deleteExamType":
+                $result = ExamController::deleteExamType(
+                    $_GET['examTypeId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "createUser":
                 $result = UserController::createUser(
-                    $_POST['name'],
-                    $_POST['userLogin'],
-                    $_POST['userPassword'],
-                    $_POST['address'],
-                    $_POST['gender'],
-                    $_POST['birthdate'],
-                    $_POST['citizenCard'],
-                    $_POST['userType'],
-                    $_POST['isActive']
+                    $_GET['name'],
+                    $_GET['userLogin'],
+                    $_GET['userPassword'],
+                    $_GET['address'],
+                    $_GET['gender'],
+                    $_GET['birthdate'],
+                    $_GET['citizenCard'],
+                    $_GET['userType'],
+                    $_GET['isActive']
                 );
                 http_response_code($result['statusCode']);
                 return json_encode($result['body']);
@@ -117,14 +242,45 @@
                 echo json_encode($result['body']);
                 break;
             case "getUserByLogin":
+                $result = UserController::getUserByLogin(
+                    $_GET['userLogin']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "doLogin":
+                $result = UserController::doLogin(
+                    $_GET['userLogin'],
+                    $_GET['userPassword']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "updateUser":
+                $result = UserController::updateUser(
+                    $_GET['userId'],
+                    $_GET['name'],
+                    $_GET['userLogin'],
+                    $_GET['userPassword'],
+                    $_GET['address'],
+                    $_GET['gender'],
+                    $_GET['birthdate'],
+                    $_GET['citizenCard'],
+                    $_GET['userType'],
+                    $_GET['isActive']
+                );
+                http_response_code($result['statusCode']);
+                return json_encode($result['body']);
                 break;
             case "deletUser":
+                $result = UserController::deletUser(
+                    $_GET['userId']
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             default:
-                // TODO return invalid request
+                http_response_code(400);
+                echo json_encode(["message" => "Invalid action"]);
                 break;
         }

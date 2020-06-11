@@ -44,7 +44,8 @@ class ExamController{
                 $examImage = (new ExamImageDAO())->add($examImagePath, $examId);
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examImage);
-            } catch (Exception $e){
+            } catch (Exception $e)
+            {
                 $result['statusCode'] = '501';
                 $result['body'] = ["message" => $e->getMessage()];
             }
