@@ -11,8 +11,10 @@
 
     /// Verify type of request
     $requestMethod = $_SERVER["REQUEST_METHOD"];
-    if ($requestMethod !== 'GET' || $requestMethod !== 'POST'){
+
+    if ($requestMethod != "GET" && $requestMethod != "POST"){
         http_response_code(400);
+        echo ($requestMethod == "GET");
         echo json_encode(["message" => "Invalid request method"]);
     }
     /// Get action from request
