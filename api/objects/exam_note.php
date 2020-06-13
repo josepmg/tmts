@@ -60,7 +60,7 @@ class ExamNote{
         if ($list == null) return null;
         $map = [];
         foreach ($list as $listElement){
-            array_push($map, json_encode($listElement->toJson()));
+            array_push($map, $listElement->toJson());
         }
         return $map;
     }

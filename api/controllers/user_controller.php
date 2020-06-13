@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include 'api/config/includes.php';
 class UserController{
 
@@ -24,7 +26,7 @@ class UserController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($user);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -47,7 +49,7 @@ class UserController{
                     $result['statusCode'] = '200';
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -69,7 +71,7 @@ class UserController{
                     $result['statusCode'] = '200';
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -86,14 +88,31 @@ class UserController{
                 if ($user != null) {
                     $result['statusCode'] = '200';
                     $result['body'] = ["result" => $user->toJson()];
+
+                    $_SESSION['userId'] = $user->getUserId();
+                    $_SESSION['userName']  = $user->getUserName();
+                    $_SESSION['userLogin']  = $user->getUserLogin();
+                    $_SESSION['userType'] = ($user->getUserType())->getUserTypeId();
                 } else {
                     $result['statusCode'] = '204';
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
+        }
+        return  ($result);
+    }
+    public static function doLogout(): array {
+        $result = [];
+        try {
+            session_unset();
+            session_destroy();
+            $result["result"] = "true";
+        } catch (Exception $e) {
+            $result['statusCode'] = '500';
+            $result['body'] = ["message" => $e->getMessage()];
         }
         return  ($result);
     }
@@ -118,14 +137,54 @@ class UserController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($user);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
+        }
+        return  ($result);
+    }
+    public static function deactivateUser(int $userId): array {
+        $result = [];
+        if ($userId == null || $userId == 0){
+            $result['statusCode'] = '404';
+            $result['body'] = ["message" => "Invalid input(s)"];
+        } elseif (userController::checkSessionVariables() && userController::isAdmin()){
+            $result['statusCode'] = '401';
+            $result['body'] = ["message" => "Access not allowed"];
+        } else {
+            try {
+                $user = (new UserDAO())->deactivate($userId);
+                $result['statusCode'] = '200';
+                $result['body'] = strval($user);
+            } catch (Exception $e) {
+                $result['statusCode'] = '500';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
+        }
+        return  ($result);
+    }
+    public static function activateUser(int $userId): array {
+        $result = [];
+        if ($userId == null || $userId == 0){
+            $result['statusCode'] = '404';
+            $result['body'] = ["message" => "Invalid input(s)"];
+        } elseif (userController::checkSessionVariables() && userController::isAdmin()){
+            $result['statusCode'] = '401';
+            $result['body'] = ["message" => "Access not allowed"];
+        } else {
+            try {
+                $user = (new UserDAO())->active($userId);
+                $result['statusCode'] = '200';
+                $result['body'] = strval($user);
+            } catch (Exception $e) {
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
         return  ($result);
     }
 
-    public static function deletUser(int $userId): array {
+    public static function deleteUser(int $userId): array {
         $result = [];
         if ($userId == null || $userId == 0){
             $result['statusCode'] = '404';
@@ -139,7 +198,7 @@ class UserController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($user);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -152,7 +211,6 @@ class UserController{
             isset($_SESSION['userLogin']) ||
             isset($_SESSION['userType']));
     }
-
     private static function isAdmin(): bool{
         return (isset($_SESSION['userType']) && $_SESSION['userType'] == 1);
     }

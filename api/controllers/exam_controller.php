@@ -24,7 +24,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($exam);
             } catch (Exception $e){
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -46,7 +46,7 @@ class ExamController{
                 $result['body'] = strval($examImage);
             } catch (Exception $e)
             {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
             $result['statusCode'] = '200';
@@ -70,7 +70,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examNote);
             } catch (Exception $e){
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
             $result['statusCode'] = '200';
@@ -93,7 +93,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examType);
             } catch (Exception $e){
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
             $result['statusCode'] = '200';
@@ -119,7 +119,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -141,7 +141,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -163,7 +163,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -185,7 +185,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -207,7 +207,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -229,7 +229,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -251,7 +251,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -273,7 +273,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -295,7 +295,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -317,7 +317,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -339,7 +339,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -361,7 +361,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -383,7 +383,7 @@ class ExamController{
                     $result['body'] = ["message" => "No records found"];
                 }
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -405,7 +405,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($exam);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -427,7 +427,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examImage);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -450,7 +450,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examNote);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -471,7 +471,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examType);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -493,7 +493,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($exam);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -514,7 +514,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examImage);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -534,7 +534,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examNote);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -554,7 +554,7 @@ class ExamController{
                 $result['statusCode'] = '200';
                 $result['body'] = strval($examType);
             } catch (Exception $e) {
-                $result['statusCode'] = '501';
+                $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
         }
@@ -567,11 +567,9 @@ class ExamController{
             isset($_SESSION['userLogin']) ||
             isset($_SESSION['userType']));
     }
-
     private static function isProfessional(): bool{
         return (isset($_SESSION['userType']) && $_SESSION['userType'] != 4);
     }
-
     private static function isAdmin(): bool{
         return (isset($_SESSION['userType']) && $_SESSION['userType'] == 1);
     }

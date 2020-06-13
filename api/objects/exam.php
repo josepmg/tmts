@@ -1,7 +1,7 @@
 <?php
 include 'api/config/includes.php';
-class Exam
-{
+
+class Exam {
     private int $examId;
     private ExamType $type;
     private User $patient;

@@ -155,6 +155,28 @@ class UserDAO
 
         return $result;
     }
+    public function deactivate($userId) :bool
+    {
+        if ($this->conn == null) $this->openConnection();
+        $sttm = $this->conn->prepare('UPDATE user SET isActive = false WHERE :userId');
+        $sttm->bindValue(':userId', $userId);
+
+        $result = $sttm->execute();
+        $sttm = null;
+
+        return $result;
+    }
+    public function active($userId) :bool
+    {
+        if ($this->conn == null) $this->openConnection();
+        $sttm = $this->conn->prepare('UPDATE user SET isActive = true WHERE :userId');
+        $sttm->bindValue(':userId', $userId);
+
+        $result = $sttm->execute();
+        $sttm = null;
+
+        return $result;
+    }
 
     /// Delete
     public function delete(int $userId) :bool
