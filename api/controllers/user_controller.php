@@ -1,5 +1,6 @@
 <?php
-session_start();
+if (session_id() == '' || !isset($_SESSION))
+    session_start();
 
 include 'api/config/includes.php';
 class UserController{
@@ -154,6 +155,26 @@ class UserController{
         } else {
             try {
                 $user = (new UserDAO())->deactivate($userId);
+                $result['statusCode'] = '200';
+                $result['body'] = strval($user);
+            } catch (Exception $e) {
+                $result['statusCode'] = '500';
+                $result['body'] = ["message" => $e->getMessage()];
+            }
+        }
+        return  ($result);
+    }
+    public static function changePassword(int $userId, string $newPassword): array {
+        $result = [];
+        if ($userId == null || $userId == 0){
+            $result['statusCode'] = '404';
+            $result['body'] = ["message" => "Invalid input(s)"];
+        } elseif (userController::checkSessionVariables()){
+            $result['statusCode'] = '401';
+            $result['body'] = ["message" => "Access not allowed"];
+        } else {
+            try {
+                $user = (new UserDAO())->changePassword($userId, $newPassword);
                 $result['statusCode'] = '200';
                 $result['body'] = strval($user);
             } catch (Exception $e) {

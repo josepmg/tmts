@@ -166,6 +166,18 @@ class UserDAO
 
         return $result;
     }
+    public function changePassword($userId, $newPassword) :bool
+    {
+        if ($this->conn == null) $this->openConnection();
+        $sttm = $this->conn->prepare('UPDATE user SET userPassword = :newPassword WHERE :userId');
+        $sttm->bindValue(':userId', $userId);
+        $sttm->bindValue(':newPassword', $newPassword);
+
+        $result = $sttm->execute();
+        $sttm = null;
+
+        return $result;
+    }
     public function active($userId) :bool
     {
         if ($this->conn == null) $this->openConnection();

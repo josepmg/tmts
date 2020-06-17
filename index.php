@@ -1,5 +1,6 @@
 <?php
-    session_start();
+    if (session_id() == '' || !isset($_SESSION))
+        session_start();
 
     include_once 'api/controllers/exam_controller.php';
     include_once 'api/controllers/user_controller.php';
@@ -276,6 +277,14 @@
                 );
                 http_response_code($result['statusCode']);
                 return json_encode($result['body']);
+                break;
+            case "changePassword":
+                $result = UserController::changePassword(
+                    $clientRequest['userId'],
+                    $clientRequest['newPassword'],
+                );
+                http_response_code($result['statusCode']);
+                echo json_encode($result['body']);
                 break;
             case "deleteUser":
                 $result = UserController::deleteUser(
