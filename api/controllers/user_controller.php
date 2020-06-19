@@ -25,7 +25,7 @@ class UserController{
             try {
                 $user = (new UserDAO())->add($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($user);
+                $result['body'] = ["result" => $user];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -88,7 +88,7 @@ class UserController{
                 $user = (new UserDAO())->login($userLogin, $userPassword);
                 if ($user != null) {
                     $result['statusCode'] = '200';
-                    $result['body'] = ["result" => $user->toJson()];
+                    $result['body'] = ["result" => $user->credentialsToJson()];
 
                     $_SESSION['userId'] = $user->getUserId();
                     $_SESSION['userName']  = $user->getUserName();
@@ -110,7 +110,8 @@ class UserController{
         try {
             session_unset();
             session_destroy();
-            $result["result"] = "true";
+            $result['statusCode'] = 200;
+            $result['body'] = ['result' => true];
         } catch (Exception $e) {
             $result['statusCode'] = '500';
             $result['body'] = ["message" => $e->getMessage()];
@@ -136,7 +137,7 @@ class UserController{
             try {
                 $user = (new UserDAO())->update($userId, $name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($user);
+                $result['body'] = ["result" => $user];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -156,7 +157,7 @@ class UserController{
             try {
                 $user = (new UserDAO())->deactivate($userId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($user);
+                $result['body'] = ["result" => $user];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -176,7 +177,7 @@ class UserController{
             try {
                 $user = (new UserDAO())->changePassword($userId, $newPassword);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($user);
+                $result['body'] = ["result" => $user];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -196,7 +197,7 @@ class UserController{
             try {
                 $user = (new UserDAO())->active($userId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($user);
+                $result['body'] = ["result" => $user];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -217,7 +218,7 @@ class UserController{
             try {
                 $user = (new UserDAO())->delete($userId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($user);
+                $result['body'] = ["result" => $user];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];

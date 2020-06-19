@@ -22,7 +22,7 @@ class ExamController{
             try {
                 $exam = (new ExamDAO())->add($type, $patient, $doctor, $techinitian, $realizationDate, $examImages, $examNotes);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($exam);
+                $result['body'] = ["result" => $exam];
             } catch (Exception $e){
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -43,14 +43,14 @@ class ExamController{
             try {
                 $examImage = (new ExamImageDAO())->add($examImagePath, $examId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examImage);
+                $result['body'] = ["result" => $examImage];
             } catch (Exception $e)
             {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
             $result['statusCode'] = '200';
-            $result['body'] = strval($examImage);
+            $result['body'] = ["result" => $examImage];
         }
         return ($result);
     }
@@ -68,13 +68,13 @@ class ExamController{
             try {
                 $examNote = (new ExamNoteDAO())->add($examNote, $healthProfessional, $examId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examNote);
+                $result['body'] = ["result" => $examNote];
             } catch (Exception $e){
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
             $result['statusCode'] = '200';
-            $result['body'] = strval($examNote);
+            $result['body'] = ["result" => $examNote];
         }
         return  ($result);
     }
@@ -91,13 +91,13 @@ class ExamController{
             try {
                 $examType = (new ExamTypeDAO())->add($examType);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examType);
+                $result['body'] = ["result" => $examType];
             } catch (Exception $e){
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
             }
             $result['statusCode'] = '200';
-            $result['body'] = strval($examType);
+            $result['body'] = ["result" => $examType];
         }
         return  ($result);
     }
@@ -403,7 +403,7 @@ class ExamController{
             try {
                 $exam = (new ExamDAO())->update($examId, $type, $patient, $doctor, $techinitian, $realizationDate);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($exam);
+                $result['body'] = ["result" => $exam];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -425,7 +425,7 @@ class ExamController{
             try {
                 $examImage = (new ExamImageDAO())->update($examImageId, $examImagePath, $examId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examImage);
+                $result['body'] = ["result" => $examImage];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -448,7 +448,7 @@ class ExamController{
             try {
                 $examNote = (new ExamNoteDAO())->update($examNoteId, $examNote, $healthProfessional, $examId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examNote);
+                $result['body'] = ["result" => $examNote];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -469,7 +469,7 @@ class ExamController{
             try {
                 $examType = (new ExamTypeDAO())->update($examTypeId, $examType);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examType);
+                $result['body'] = ["result" => $examType];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -491,7 +491,7 @@ class ExamController{
             try {
                 $exam = (new ExamDAO())->delete($examId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($exam);
+                $result['body'] = ["result" => $exam];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -512,7 +512,7 @@ class ExamController{
             try {
                 $examImage = (new ExamImageDAO())->delete($examImageId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examImage);
+                $result['body'] = ["result" => $examImage];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -532,7 +532,7 @@ class ExamController{
             try {
                 $examNote = (new ExamNoteDAO())->delete($examNoteId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examNote);
+                $result['body'] = ["result" => $examNote];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
@@ -552,7 +552,7 @@ class ExamController{
             try {
                 $examType = (new ExamTypeDAO())->delete($examTypeId);
                 $result['statusCode'] = '200';
-                $result['body'] = strval($examType);
+                $result['body'] = ["result" => $examType];
             } catch (Exception $e) {
                 $result['statusCode'] = '500';
                 $result['body'] = ["message" => $e->getMessage()];
