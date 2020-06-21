@@ -23,7 +23,8 @@ class UserController{
             $result['body'] = ["message" => "Access not allowed"];
         } else {
             try {
-                $user = (new UserDAO())->add($name, $userLogin, $userPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
+                $hashPassword = password_hash($userPassword, PASSWORD_DEFAULT);
+                $user = (new UserDAO())->add($name, $userLogin, $hashPassword, $address, $gender, $birthdate, $citizenCard, $userType, $isActive);
                 $result['statusCode'] = '200';
                 $result['body'] = ["result" => $user];
             } catch (Exception $e) {
